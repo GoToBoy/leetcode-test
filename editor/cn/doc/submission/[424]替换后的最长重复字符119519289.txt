@@ -1,0 +1,25 @@
+/**
+ * @param {string} s
+ * @param {number} k
+ * @return {number}
+ */
+var characterReplacement = function(s, k) {
+  if(!s) return 0;
+  var chars = s.split('');
+  var charHistoryMax = 0;
+  var left = 0;
+  var map = [];
+  for(let r = 0; r < chars.length; r++){
+      var index = chars[r].charCodeAt() - 65
+      map[index] = map[index] ? map[index]+1 : 1;
+      charHistoryMax = Math.max(charHistoryMax,map[index]);
+
+      if(r -left +1 > charHistoryMax + k){
+          map[chars[left].charCodeAt() - 65]--;
+          left++;
+      }
+  }
+  return chars.length - left;
+};
+//runtime:136 ms
+//memory:40.7 MB

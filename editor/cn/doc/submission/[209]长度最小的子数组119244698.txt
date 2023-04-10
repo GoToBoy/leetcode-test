@@ -1,0 +1,24 @@
+/**
+ * @param {number} s
+ * @param {number[]} nums
+ * @return {number}
+ */
+var minSubArrayLen = function(s, nums) {
+    var l = 0, r=0,sum=0,res=nums.length+1;
+
+    while(r < nums.length){
+        sum +=nums[r];
+        
+        while(sum>=s){
+            res = Math.min(res,r-l+1);
+            sum -=nums[l];
+            l++;
+        }
+
+        r++;
+    }
+    if(res == nums.length +1) return 0;
+    return res;
+};
+//runtime:76 ms
+//memory:38.6 MB

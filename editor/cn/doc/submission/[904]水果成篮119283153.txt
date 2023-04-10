@@ -1,0 +1,29 @@
+/**
+ * @param {number[]} tree
+ * @return {number}
+ */
+var totalFruit = function(tree) {
+    var r=l=count=0;
+    var window = {};
+    var ret = 0;
+    while(r < tree.length){
+        const w1 = tree[r]
+        if(window[w1]){
+            window[w1]++
+        } else {
+            window[w1] =  1;
+            count++;
+        }
+        if(count > 2){
+            const w2 = tree[l] 
+            window[w2]--;
+            if(!window[w2]) count--;
+            l++;    
+        }
+        ret = Math.max(ret, r - l + 1)
+        r++;
+    }
+    return ret;
+};
+//runtime:204 ms
+//memory:49 MB
