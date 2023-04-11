@@ -36,6 +36,25 @@
  * @return {string}
  */
 var multiply = function(num1, num2) {
+    const len1 = num1.length, len2 = num2.length;
+    let res = new Array(len1 + len2).fill(0);
 
+    for(let i = len1-1; i>=0; i--){
+        for(let j = len2-1; j>=0; j--){
+            let mul = (num1[i]-'0') * (num2[j]-'0');
+            let p2 = i+j+1, p1 = i+j;
+            let sum = mul + res[p2]; //累加
+            res[p1] += parseInt(sum/10)
+            res[p2] = sum % 10;
+        }
+    }
+
+    let i = 0;
+    while(i < res.length && res[i] === 0){
+        i++
+    }
+
+    return i === res.length ? "0" : res.slice(i).join('')
 };
+
 //leetcode submit region end(Prohibit modification and deletion)

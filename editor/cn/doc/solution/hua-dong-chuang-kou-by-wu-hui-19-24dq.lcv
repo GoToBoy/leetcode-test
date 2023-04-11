@@ -1,0 +1,70 @@
+### 解题思路
+
+1.设置一个left=0、right=0的窗口，right慢慢向右滑动，直到窗口涵盖t所有字符
+2.滑动left，去除不必要的字符，直到窗口刚好涵盖t所有字符，记录下窗口start和length
+3.让left右移一个位置，重新从步骤1开始执行，如此循环，直到right超出s的范围
+
+### 代码
+
+* javascript
+
+```javascript
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {string}
+ */
+function minWindow(s,t){
+  // need 所需要的的字符和数量
+  // window 窗口的字符和数量
+  let need={},window={}
+  for(let c of t){
+    if (!need[c]) {
+      need[c] = 1;
+    } else {
+      need[c]++;
+    }
+  }
+  let left=0,right=0
+  let valid = 0 //window 窗口中已经有多少个所需要的字符数量
+  let start=0,len = s.length+1
+  while(right<s.length){
+    let c = s[right]
+    right++
+    
+    if(check(need,c)){
+       if (!window[c]) {
+            window[c] = 1;
+        } else {
+            window[c]++;
+        }
+      if(window[c]===need[c]){
+        valid++
+      }
+    }
+
+    //判断左侧窗口是否要收缩
+    while(valid===Object.keys(need).length){
+      //更新最小覆盖子串
+      if(right-left < len){
+        start = left
+        len = right -left
+      }
+      let d = s[left]
+      left++
+      if(check(need,d)){
+        if(window[d]===need[d]){
+          valid--
+        }
+        window[d]--
+      }
+    }
+  }
+  return len === s.length+1 ?
+    "":s.substr(start, len)
+}
+function check(obj,str){
+  return !!obj[str]
+}
+```
+
