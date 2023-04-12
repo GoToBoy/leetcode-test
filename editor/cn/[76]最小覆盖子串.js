@@ -60,22 +60,42 @@
  * @return {string}
  */
 var minWindow = function(s, t) {
-    if(t.length > s.length) return ''
+    if(!s.length || !t.length) return '';
 
-    const map = {};
-    for(let char of t){
-        map[char] = (map[char] || 0) +1
+    let tCount = {};
+    for(let i of t){
+        tCount[i] = (tCount[i] || 0) + 1
     }
 
-    let count = Object.keys(map).length;
-    let left = 0,right=0,minLen=Infinity,start = 0;
+    let left = 0, right = 0, minLen = Infinity, windowCount = {};
+    let requireChar = t.length;
+    let minSubstring = ''
 
     while(right < s.length){
+        const char = s[right];
+        if(tCount[char] !== undefined){
+            windowCount[char] = (windowCount[char] || 0) + 1
+            if(windowCount[char] <= tCount[char]){
+                requireChar--
+            }
+        }
 
+        while(requireChar === 0){
+            if(right-left+1 < minLen){
+                minLen = right-left+1;
+                minSubstring = s.substring(left,right+1)
+            }
+            const leftChar = s[left]
+            if(tCount[leftChar] !== undefined){
+                windowCount[leftChar]--
+                if(windowCount[leftChar] < tCount[leftChar]){
+                    requireChar++;
+                }
+            }
+            left++;
+        }
+        right++
     }
-
-
-
-
+    return minSubstring
 };
 //leetcode submit region end(Prohibit modification and deletion)
