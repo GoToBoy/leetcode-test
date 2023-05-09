@@ -63,42 +63,9 @@
  * @return {number[]}
  */
 function findSubstring(s, words) {
-    if (!s || !words || words.length === 0) {
-        return [];
-    }
+    
 
-    const wordLen = words[0].length;
-    const wordsCount = words.length;
-    const sLen = s.length;
 
-    const wordCounter = {};
-    for (const word of words) {
-        wordCounter[word] = (wordCounter[word] || 0) + 1;
-    }
-
-    const result = [];
-
-    for (let start = 0; start < wordLen; start++) {
-        let left = start;
-        let windowCounter = {};
-
-        for (let i = start; i <= sLen - wordLen; i += wordLen) {
-            const currentWord = s.substring(i, i + wordLen);
-            windowCounter[currentWord] = (windowCounter[currentWord] || 0) + 1;
-
-            while (windowCounter[currentWord] > (wordCounter[currentWord] || 0)) {
-                const leftWord = s.substring(left, left + wordLen);
-                windowCounter[leftWord]--;
-                left += wordLen;
-            }
-
-            if (i - left === wordLen * (wordsCount - 1)) {
-                result.push(left);
-            }
-        }
-    }
-
-    return result;
 }
 
 
